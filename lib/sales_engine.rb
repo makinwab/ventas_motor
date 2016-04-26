@@ -19,5 +19,5 @@ end
 engine = SalesEngine.new("data")
 engine.startup
 
-p engine.merchant_repository.random
+p engine.merchant_repository.find_all_by_name("Williamson Group")
 =end
