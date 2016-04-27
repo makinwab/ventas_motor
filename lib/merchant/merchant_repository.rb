@@ -8,17 +8,26 @@ class MerchantRepository < Repository
     @@folder = folder
     super(folder, "merchants", Merchant)
 
-    set_items
+    add_collection(ItemRepository, "items")
+    add_collection(InvoiceRepository, "invoices")
   end
 
-  def set_items
-    count = 0
-    item_instances = ItemRepository.new(@@folder).model_instances
+  private
+
+  def add_collection(collection, type)
+    instances = collection.new(@@folder).model_instances
     merchant_instances.each do |merchant|
-      item_instances.each do |item|
-        if item.merchant_id == merchant.id
-          merchant.items << item
-        end
+      traverse_and_add_collection(merchant, instances) do |model|
+        merchant.items << model if type == "items"
+        merchant.invoices << model if type == "invoices"
+      end
+    end
+  end
+
+  def traverse_and_add_collection(merchant, instances, &block)
+    instances.each do |model|
+      if model.merchant_id == merchant.id
+        block.call(model)
       end
     end
   end
