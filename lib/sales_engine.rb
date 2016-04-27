@@ -1,7 +1,7 @@
 require "csv"
 require "pry"
 require_relative "repository"
-require_relative "merchant/merchant"
+require_relative "item/item_repository"
 require_relative "merchant/merchant_repository"
 
 class SalesEngine

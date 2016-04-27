@@ -1,4 +1,6 @@
 class Repository
+  attr_reader :model_instances
+  
   #load up csv file
   def initialize(folder, repos, type)
     @@file_path = folder + "/#{repos}.csv"
